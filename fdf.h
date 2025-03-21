@@ -13,9 +13,10 @@
 #ifndef FDF_H
 # define FDF_H
 
-#include "minilibx-linux/mlx.h"
-#include "get_next_line/get_next_line.h"
-#include "libft/libft.h"
+#include "libs/minilibx-linux/mlx.h"
+#include "libs/get_next_line/get_next_line.h"
+#include "libs/libft/libft.h" 
+#include <stdio.h>
 #include <math.h>
 #include <X11/keysym.h>
 #include <stdlib.h>
@@ -40,11 +41,15 @@ typedef	struct s_fdf
 {
 	int	width;
 	int	height;
-}		fdf;
+	int **z_value_m;
+	int **z_color_m;
+}			fdf;
 
 void	my_mlx_pixel_put(t_img_data *img, int x, int y, int color);
 int     handle_events(int keysym, t_mlx_data *data);
-void    bresenham(float x, float y, float x1, float y1, t_mlx_data *data);
-void    draw(t_mlx_data *data, int width, int height);
+void    bresenham(float x, float y, float x1, float y1, t_mlx_data *data, fdf input);
+void    draw(t_mlx_data *data, fdf *input);
+void	free_matrix(int **matrix, int height);
+fdf 	fdf_data(char *filepath);
 
 #endif

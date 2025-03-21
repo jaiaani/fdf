@@ -21,30 +21,37 @@ void	isometric(float *x, float *y, int z)
 	*y = (*x + *y) * sin(0.8) - z;
 }
 
-void	bresenham(float x, float y, float x1, float y1, t_mlx_data *data)
+void	bresenham(float x, float y, float x1, float y1, t_mlx_data *data, fdf input)
 {
 	float	x_step;
 	float	y_step;
 	float	max;
 	int	zoom;
-	int	z;
-	int	z1;
 	int	color;
+	int	z;
+	int z1;
 
-	z = 0;
-	z1 = 0;
-	color = (z) ? 0xe80c0c : 0xffffff;
-	zoom = 20;
+	z = input.z_value_m[(int)y][(int)x];
+	z1 = input.z_value_m[(int)y1][(int)x1];
+	
+	zoom = 10;
 	x *= zoom;
 	x1 *= zoom;
 	y *= zoom;
 	y1 *= zoom;
-
+	z *= zoom;
+	z1 *= zoom;
+	color = input.z_color_m[(int)y][(int)x];
+	isometric(&x, &y, z);
+	isometric(&x1, &y1, z1);
+	x += 500;
+	y += 500;
+	x1 += 500;
+	y1 += 500;
 	x_step = x1 - x;
 	y_step = y1 - y;
-	isometric(&x, &y, z);
-	isometric(&x1, &y1, z);
-	max = MAX(x_step, y_step);
+	
+	max = MAX(MOD(x_step), MOD(y_step));
 	x_step /= max;
 	y_step /= max;
 	while ((int)(x - x1) || (int)(y - y1))
@@ -56,21 +63,21 @@ void	bresenham(float x, float y, float x1, float y1, t_mlx_data *data)
 
 }
 
-void	draw(t_mlx_data *data, int width, int height)
+void	draw(t_mlx_data *data, fdf *input)
 {
 	int	x;
 	int	y;
 
 	y = 0;
-	while (y < height)
+	while (y < input->height)
 	{
 		x = 0;
-		while (x < width)
+		while (x < input->width)
 		{
-			if (x < width - 1)
-				bresenham(x, y, x + 1, y, data);
-			if (y < height - 1)
-				bresenham(x, y, x, y + 1, data);
+			if (x < input->width - 1)
+				bresenham(x, y, x + 1, y, data, *input);
+			if (y < input->height - 1)
+				bresenham(x, y, x, y + 1, data, *input);
 			x++;
 		}
 		y++;

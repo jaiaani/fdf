@@ -6,36 +6,57 @@
 /*   By: jaiane <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 20:04:21 by jaiane            #+#    #+#             */
-/*   Updated: 2025/03/14 07:49:20 by jaiane           ###   ########.fr       */
+/*   Updated: 2025/03/18 23:05:37 by jaiane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <unistd.h>
+#include <stdio.h>
 
-int	main(void)
+void window_session(t_mlx_data *mlx, fdf *data)
 {
-	t_mlx_data	data;
-	t_img_data	img;
-	fdf	input;
-	int	height;
-	int	width;
+	draw(mlx, data);
+	mlx_key_hook(mlx->win_ptr, handle_events, data);
+	mlx_loop(mlx->mlx_ptr);
+}
 
 
-	width = 20;
-	height = 10;
-
-	data.mlx_ptr = mlx_init();
-	if (!data.mlx_ptr)
-		return (1);
-	data.win_ptr = mlx_new_window(data.mlx_ptr, 800, 800, "FDF!");
-	if (!data.win_ptr)
+void initialize_mlx(t_mlx_data *mlx)
+{
+	mlx->mlx_ptr = mlx_init();
+	if (!mlx->mlx_ptr)
+		exit(1);
+	mlx->win_ptr = mlx_new_window(mlx->mlx_ptr, 1980, 1980, "FDF!");
+	if (!mlx->win_ptr)
 	{
-		mlx_destroy_display(data.mlx_ptr);
-		free(data.mlx_ptr);
-		return (1);
+		mlx_destroy_display(mlx->mlx_ptr);
+		free(mlx->mlx_ptr);
+		exit(1);
 	}
-	draw(&data, width, height);
-	mlx_key_hook(data.win_ptr, handle_events, &data);
-	mlx_loop(data.mlx_ptr);
+}
+
+int	main(int argc, char *argv[])
+{
+	//t_mlx_data	mlx;
+	fdf			data;
+
+	if (argc != 2)
+		return (1);
+
+	data = fdf_data(argv[1]);
+	for (int i = 0; i < data.height; i++)
+	{
+		for (int j = 0; j < data.width; j++)
+		{
+			printf("%d ", data.z_color_m[i][j]);
+		}
+		printf("\n");
+	}
+	/*initialize_mlx(&mlx);
+	window_session(&mlx, &data);
+	free_matrix(data.z_value_m, data.height);
+	free_matrix(data.z_color_m, data.height);*/
+	
+	return (0);
 }
