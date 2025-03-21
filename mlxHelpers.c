@@ -12,16 +12,15 @@
 
 #include "fdf.h"
 
-int	handle_events(int keysym, t_mlx_data *data)
+/*int	handle_events(int keysym, t_data *data)
 {
-	if (keysym == XK_Escape)
-	{
-		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-		mlx_destroy_display(data->mlx_ptr);
-		free(data->mlx_ptr);
-		free(data->win_ptr);
-		free(data);
-		exit(1);
-	}
-	return (0);
-}
+
+    if (keysym == XK_Escape)
+    {
+        mlx_destroy_window(data.mlx->mlx_ptr, data.mlx->win_ptr);
+        mlx_destroy_display(data.mlx->mlx_ptr);
+        free(data.mlx->mlx_ptr);
+        exit(1);
+    }
+    return (0);
+}*/

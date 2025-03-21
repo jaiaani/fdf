@@ -113,67 +113,7 @@ int count_lines(int fd)
     return (lines);
 }
 
-/*void fill_matrix_trow(int *z_line, char *line)
-{
-	char **nums;
-	int i;
-
-	nums = ft_split(line, ' ');
-	i = 0;
-	while (nums[i])
-	{
-		z_line[i] = ft_atoi(nums[i]);
-		i++;
-	}
-	z_line[i] = 0;
-	free_split(nums);
-}*/
-
-void init_matrix(fdf *data)
-{
-    int **value_matrix;
-    int **color_matrix;
-    int i;
-    
-    value_matrix = (int **)malloc(sizeof(int *) * (data->height + 1));
-    color_matrix = (int **)malloc(sizeof(int *) * (data->height + 1));
-    if (!value_matrix || !color_matrix)
-        return ;
-    i = 0;
-    while (i < data->height)
-    {
-        value_matrix[i] = (int *)malloc(sizeof(int) * (data->width + 1));
-        color_matrix[i] = (int *)malloc(sizeof(int) * (data->width + 1));
-
-        if (!value_matrix[i] || !color_matrix[i])
-        {
-            free_matrix(value_matrix, i);
-            free_matrix(color_matrix, i);
-            return ;
-        }
-        i++;
-    }
-    data->z_value_m = value_matrix;
-    data->z_color_m = color_matrix;
-}
-
-/*void fill_value_matrix(fdf *data, int fd)
-{
-    int i;
-    char *line;
-
-    i = 0;
-    while (i < data->height)
-    {
-        line = get_next_line(fd);
-        fill_matrix_row(data->z_value_m[i], line);
-        free(line);
-        i++;
-    }
-    free_static_buffer();
-}*/
-
-void fill_matrix_row(int *value_line, int *color_line, char *line)
+void fill_matrix_row(int *value_line, int *color_line, char *line) // fill both matrixes (value and color)
 {
     char **row_values;
     char **values;
@@ -193,36 +133,66 @@ void fill_matrix_row(int *value_line, int *color_line, char *line)
       else
         {
             value_line[i] = ft_atoi(row_values[i]);
-            color_line[i] = 0xFFFFFF;
-        
+            color_line[i] =  0x00FF00;
         }
+        i++;
     }
     value_line[i] = 0;
     color_line[i] = 0;
     free_split(row_values);
 }
 
-void fill_matrix(fdf *data, int fd)
+int **empty_matrix(t_fdf *data)
+{
+    int **matrix;
+    int i;
+    
+    matrix = (int **)malloc(sizeof(int *) * (data->height + 1));
+    if (!matrix)
+        return (NULL);
+    i = 0;
+    while (i < data->height)
+    {
+        matrix[i] = (int *)malloc(sizeof(int) * (data->width + 1));
+        if (!matrix[i])
+        {
+            free_matrix(matrix, i);
+            return (NULL);
+        }
+        i++;
+    }
+    matrix[i] = NULL;
+    return (matrix);
+}
+
+void fill_matrix(t_fdf *data, int fd)
 {
     int i;
     char *line;
 
-    init_matrix(data);
+    data->z_value_m = empty_matrix(data);
+    data->z_color_m = empty_matrix(data);
+    if (!data->z_value_m || !data->z_color_m)
+        {
+                free_matrix(data->z_value_m, data->height);
+                free_matrix(data->z_color_m, data->height);
+                return ;
+        }
     i = 0;
     while (i < data->height)
     {
         line = get_next_line(fd);
-        fill_matrix_row(data->z_value_m[i] ,data->z_color_m[i], line);
+        fill_matrix_row(data->z_value_m[i], data->z_color_m[i], line);
         free(line);
         i++;
     }
     free_static_buffer();
 }
 
-fdf fdf_data(char *filepath)
+t_fdf fdf_data(char *filepath)
 {
     int	fd;
-    fdf data;
+    t_fdf data;
 
     fd = opened_fd(filepath);
     data.width = count_tokens(fd);

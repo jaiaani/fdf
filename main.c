@@ -14,49 +14,52 @@
 #include <unistd.h>
 #include <stdio.h>
 
-void window_session(t_mlx_data *mlx, fdf *data)
+int	handle_input(int keysym, t_data *data)
 {
-	draw(mlx, data);
-	mlx_key_hook(mlx->win_ptr, handle_events, data);
-	mlx_loop(mlx->mlx_ptr);
-}
 
-
-void initialize_mlx(t_mlx_data *mlx)
-{
-	mlx->mlx_ptr = mlx_init();
-	if (!mlx->mlx_ptr)
-		exit(1);
-	mlx->win_ptr = mlx_new_window(mlx->mlx_ptr, 1980, 1980, "FDF!");
-	if (!mlx->win_ptr)
-	{
-		mlx_destroy_display(mlx->mlx_ptr);
-		free(mlx->mlx_ptr);
-		exit(1);
-	}
+    if (keysym == XK_Escape)
+    {
+        printf("The %d key (ESC) has been pressed\n\n", keysym);
+        mlx_destroy_window(data->mlx.connection, data->mlx.window);
+        mlx_destroy_display(data->mlx.connection);
+        free(data->mlx.connection);
+        free_matrix(data->fdf.z_value_m, data->fdf.height);
+	free_matrix(data->fdf.z_color_m, data->fdf.height);
+        exit(1);
+    }
+    printf("The %d key has been pressed\n\n", keysym);
+    return (0);
 }
 
 int	main(int argc, char *argv[])
 {
-	//t_mlx_data	mlx;
-	fdf			data;
-
-	if (argc != 2)
-		return (1);
-
-	data = fdf_data(argv[1]);
-	for (int i = 0; i < data.height; i++)
-	{
-		for (int j = 0; j < data.width; j++)
-		{
-			printf("%d ", data.z_color_m[i][j]);
-		}
-		printf("\n");
-	}
-	/*initialize_mlx(&mlx);
-	window_session(&mlx, &data);
-	free_matrix(data.z_value_m, data.height);
-	free_matrix(data.z_color_m, data.height);*/
-	
-	return (0);
+        t_data  data;
+        
+        if (argc != 2)
+               return (1);
+        data.fdf = fdf_data(argv[1]);
+        data.mlx.connection = mlx_init();
+        if (data.mlx.connection == NULL)
+                return (1);
+        data.mlx.window = mlx_new_window(data.mlx.connection, 1980, 1980, "My first window!");
+        if (data.mlx.window == NULL)
+        {
+                mlx_destroy_display(data.mlx.connection);
+                free(data.mlx.connection);
+                return (1);
+        }
+        for (int i = 0; i < data.fdf.height; i++)
+        {
+                for (int j = 0; j < data.fdf.width; j++)
+                {
+                        printf("%x ", data.fdf.z_color_m[i][j]);
+                }
+                printf("\n");
+        }
+        draw(&data);
+        mlx_key_hook(data.mlx.window, handle_input, &data.mlx);
+        mlx_loop(data.mlx.connection);
+        free_matrix(data.fdf.z_value_m, data.fdf.height);
+	free_matrix(data.fdf.z_color_m, data.fdf.height);
+        return (0);
 }

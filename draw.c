@@ -21,7 +21,7 @@ void	isometric(float *x, float *y, int z)
 	*y = (*x + *y) * sin(0.8) - z;
 }
 
-void	bresenham(float x, float y, float x1, float y1, t_mlx_data *data, fdf input)
+void	bresenham(float x, float y, float x1, float y1, t_mlx *mlx, t_fdf data)
 {
 	float	x_step;
 	float	y_step;
@@ -31,8 +31,13 @@ void	bresenham(float x, float y, float x1, float y1, t_mlx_data *data, fdf input
 	int	z;
 	int z1;
 
-	z = input.z_value_m[(int)y][(int)x];
-	z1 = input.z_value_m[(int)y1][(int)x1];
+	z = data.z_value_m[(int)y][(int)x];
+	z1 = data.z_value_m[(int)y1][(int)x1];
+
+        if ((y >= 0 && y < data.height) && (x >= 0 && x < data.width))
+                color = data.z_color_m[(int)y][(int)x];
+	else
+   		color = 0x00FF00;
 	
 	zoom = 10;
 	x *= zoom;
@@ -41,7 +46,6 @@ void	bresenham(float x, float y, float x1, float y1, t_mlx_data *data, fdf input
 	y1 *= zoom;
 	z *= zoom;
 	z1 *= zoom;
-	color = input.z_color_m[(int)y][(int)x];
 	isometric(&x, &y, z);
 	isometric(&x1, &y1, z1);
 	x += 500;
@@ -56,28 +60,28 @@ void	bresenham(float x, float y, float x1, float y1, t_mlx_data *data, fdf input
 	y_step /= max;
 	while ((int)(x - x1) || (int)(y - y1))
 	{
-		mlx_pixel_put(data->mlx_ptr, data->win_ptr, x, y, color);
+		mlx_pixel_put(mlx->connection, mlx->window, x, y, color);
 		x += x_step;
 		y += y_step;
 	}
 
 }
 
-void	draw(t_mlx_data *data, fdf *input)
+void	draw(t_data *data)
 {
 	int	x;
 	int	y;
 
 	y = 0;
-	while (y < input->height)
+	while (y < data->fdf.height)
 	{
 		x = 0;
-		while (x < input->width)
+		while (x < data->fdf.width)
 		{
-			if (x < input->width - 1)
-				bresenham(x, y, x + 1, y, data, *input);
-			if (y < input->height - 1)
-				bresenham(x, y, x, y + 1, data, *input);
+			if (x < data->fdf.width - 1)
+				bresenham(x, y, x + 1, y, &data->mlx, data->fdf);
+			if (y < data->fdf.height - 1)
+				bresenham(x, y, x, y + 1, &data->mlx, data->fdf);
 			x++;
 		}
 		y++;
