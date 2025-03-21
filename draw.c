@@ -48,10 +48,10 @@ void	bresenham(float x, float y, float x1, float y1, t_mlx *mlx, t_fdf data)
 	z1 *= zoom;
 	isometric(&x, &y, z);
 	isometric(&x1, &y1, z1);
-	x += 500;
-	y += 500;
-	x1 += 500;
-	y1 += 500;
+	x += (WIN_WIDTH/2);
+	y += (WIN_HEIGHT/2);
+	x1 += (WIN_WIDTH/2);
+	y1 += (WIN_HEIGHT/2);
 	x_step = x1 - x;
 	y_step = y1 - y;
 	

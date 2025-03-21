@@ -22,6 +22,10 @@
 #include <stdlib.h>
 #include <fcntl.h>
 
+#define WIN_WIDTH 1920
+#define WIN_HEIGHT 1080
+
+
 typedef struct s_mlx_data
 {
 	void	*connection;
@@ -49,5 +53,6 @@ void    bresenham(float x, float y, float x1, float y1, t_mlx *data, t_fdf input
 void    draw(t_data *data);
 void	free_matrix(int **matrix, int height);
 t_fdf 	fdf_data(char *filepath);
+int	esc_event_handle(int keysym, t_data *data);
 
 #endif
