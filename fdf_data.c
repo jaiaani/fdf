@@ -133,7 +133,7 @@ void fill_matrix_row(int *value_line, int *color_line, char *line) // fill both 
       else
         {
             value_line[i] = ft_atoi(row_values[i]);
-            color_line[i] =  0x00FF00;
+            color_line[i] =  0xffffff;
         }
         i++;
     }
@@ -189,6 +189,13 @@ void fill_matrix(t_fdf *data, int fd)
     free_static_buffer();
 }
 
+void    init_scaling_factors(t_fdf *data)
+{
+    data->sf_x = 0;
+    data->sf_y = 0;
+    data->sf_z = 0;
+}
+
 t_fdf fdf_data(char *filepath)
 {
     int	fd;
@@ -203,5 +210,6 @@ t_fdf fdf_data(char *filepath)
     fd = opened_fd(filepath);
     fill_matrix(&data, fd);
     close(fd);
+    init_scaling_factors(&data);
     return (data);
 }
