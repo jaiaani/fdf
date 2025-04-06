@@ -38,8 +38,8 @@ int	main(int argc, char *argv[])
                 free(data.mlx.connection);
                 return (1);
         }
-        //data.img.ptr = mlx_new_image(data.mlx.connection, WIN_WIDTH, WIN_HEIGHT);
-        //data.i mg.addr = mlx_get_data_addr(&data.img.ptr, &data.img.bpp, &data.img.line_len, &data.img.endian);
+        // data.img.ptr = mlx_new_image(data.mlx.connection, WIN_WIDTH, WIN_HEIGHT);
+        //data.img.addr = mlx_get_data_addr(data.img.ptr, &data.img.bpp, &data.img.line_len, &data.img.endian);
         draw_initial_map(&data);
         mlx_key_hook(data.mlx.window, esc_event_handle, &data.mlx);
         mlx_loop(data.mlx.connection); 

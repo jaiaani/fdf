@@ -189,12 +189,6 @@ void fill_matrix(t_fdf *data, int fd)
     free_static_buffer();
 }
 
-void    init_scaling_factors(t_fdf *data)
-{
-    data->sf_x = 0;
-    data->sf_y = 0;
-    data->sf_z = 0;
-}
 
 t_fdf fdf_data(char *filepath)
 {
@@ -210,6 +204,5 @@ t_fdf fdf_data(char *filepath)
     fd = opened_fd(filepath);
     fill_matrix(&data, fd);
     close(fd);
-    init_scaling_factors(&data);
     return (data);
 }

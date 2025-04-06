@@ -12,11 +12,12 @@
 
 #include "fdf.h"
 
-void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*d;
 
-	d = img->addr + (y * img->line_len + x * (img->bpp / 8));
+	d = data->img.addr + (y * data->img.line_len + x * (data->img.bpp / 8));
 	*(unsigned int*)d = color;
+	
 }
 

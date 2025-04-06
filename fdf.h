@@ -55,15 +55,19 @@ typedef struct s_dot
         float		y;
         int		z;
         int		color;
-        int		zoom;
-        float	sf_x;
-        float	sf_y;
-        float	sf_z;
-        float	tf_x;
-        float	tf_y;
-        float	tf_z;
-        float	angle;
 }		t_dot;
+
+typedef struct s_params
+{
+        int     zoom;
+        int     sf_x;
+        int     sf_y;
+        int     sf_z;
+        int     tf_x;
+        int     tf_y;
+        int     tf_z;
+        int     angle;
+}               t_params;
 
 typedef struct s_data
 {
@@ -71,10 +75,11 @@ typedef struct s_data
         t_fdf      fdf;
         t_img      img;
         t_dot      dot;
+        t_params   params;
 }               t_data;
 
 
-void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 int     handle_events(int keysym, t_mlx *data);
 void    draw_new(t_data *data);
 void	free_matrix(int **matrix, int height);
