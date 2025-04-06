@@ -20,6 +20,25 @@ int     menu(t_data *data)
         return (0);
 }
 
+void    initialize_data(t_data *data)
+{
+        data->dot.x = 0;
+        data->dot.y = 0;
+        data->dot.z = 0;
+        data->dot.color = 0xffffff;
+
+        data->params.zoom = 8;
+        data->params.sf_x = 0;
+        data->params.sf_y = 0;
+        data->params.sf_z = 0;
+        data->params.tf_x = 0;
+        data->params.tf_y = 0;
+        data->params.tf_z = 0;
+        data->params.x_angle = 0.0;
+        data->params.y_angle = 0.0;
+        data->params.z_angle = 0.0;
+}
+
 
 int	main(int argc, char *argv[])
 {
@@ -38,9 +57,8 @@ int	main(int argc, char *argv[])
                 free(data.mlx.connection);
                 return (1);
         }
-        // data.img.ptr = mlx_new_image(data.mlx.connection, WIN_WIDTH, WIN_HEIGHT);
-        //data.img.addr = mlx_get_data_addr(data.img.ptr, &data.img.bpp, &data.img.line_len, &data.img.endian);
-        draw_initial_map(&data);
+        initialize_data(&data);
+        draw(&data);
         mlx_key_hook(data.mlx.window, esc_event_handle, &data.mlx);
         mlx_loop(data.mlx.connection); 
         free_matrix(data.fdf.z_value_m, data.fdf.height);

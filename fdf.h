@@ -53,7 +53,7 @@ typedef struct s_dot
 {
         float		x;
         float		y;
-        int		z;
+        float		z;
         int		color;
 }		t_dot;
 
@@ -66,7 +66,9 @@ typedef struct s_params
         int     tf_x;
         int     tf_y;
         int     tf_z;
-        int     angle;
+        float     x_angle;
+        float     y_angle;
+        float     z_angle;
 }               t_params;
 
 typedef struct s_data

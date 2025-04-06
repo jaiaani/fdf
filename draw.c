@@ -15,39 +15,97 @@
 #define MAX(a, b) (a > b ? a : b)
 #define MOD(a) ((a < 0) ? -a : a)
 
-void	isometric(float *x, float *y, int z)
+void	isometric(float *x, float *y, float z)
 {
 	*x = (*x - *y) * cos(0.8);
 	*y = (*x + *y) * sin(0.8) - z;
 }
 
-void	apply_scale_factor(t_dot *dot, float *x1, float *y1, int *z1, t_params params)
+void	apply_scale_factor(float *x, float *y, float *z, t_params params)
 {
-	dot->x *= params.sf_x;
-	*x1 *= params.sf_x;
-	dot->y *= params.sf_y;
-	*y1 *= params.sf_y;
-	dot->z *= params.sf_z;
-	*z1 *= params.sf_z;
+	*x *= params.sf_x + params.zoom;
+	*y *= params.sf_y + params.zoom;
+	*z *= params.sf_z + params.zoom;
 }
 
-void	apply_translation(t_dot *dot, float *x1, float *y1, int *z1, t_params params)
+void	apply_translation(float *x, float *y, float *z, t_params params)
 {
-	dot->x += params.tf_x;
-	*x1 += params.tf_x;
-	dot->y += params.tf_y;
-	*y1 += params.tf_y;
-	dot->z += params.tf_z;
-	*z1 += params.tf_z;
+	*x += params.tf_x;
+	*y += params.tf_y;
+	*z += params.tf_z;
 }
 
-void	apply_params(t_dot *dot, float *x1, float *y1, int *z1, t_params params)
+void	apply_x_rotation(float *y, float *z, t_params params)
 {
-	
-	apply_scale_factor(dot, x1, y1, z1, params);
-	apply_translation(dot, x1, y1, z1, params);
+	float angle_rad;
+	float y_temp;
+	float z_temp;
+
+	if (params.x_angle == 0)
+		return ;
+	angle_rad = params.x_angle * (M_PI / 180);
+	y_temp = *y;
+	z_temp = *z;
+	*y = y_temp * cos(angle_rad) - z_temp * sin(angle_rad);
+	*z = y_temp * sin(angle_rad) + z_temp * cos(angle_rad);
+}
+
+void	apply_y_rotation(float *x, float *z, t_params params)
+{
+	float angle_rad;
+	float x_temp;
+	float z_temp;
+
+	if (params.y_angle == 0)
+		return ;
+	angle_rad = params.y_angle * (M_PI / 180);
+	x_temp = *x;
+	z_temp = *z;
+	*x = x_temp * cos(angle_rad) + z_temp * sin(angle_rad);
+	*z = -x_temp * sin(angle_rad) + z_temp * cos(angle_rad);
+}
+
+void	apply_z_rotation(float *x, float *y, t_params params)
+{
+	float angle_rad;
+	float x_temp;
+	float y_temp;
+
+	if (params.z_angle == 0)
+		return ;
+	angle_rad = params.z_angle * (M_PI / 180);
+	x_temp = *x;
+	y_temp = *y;
+	*x = x_temp * cos(angle_rad) - y_temp * sin(angle_rad);
+	*y = x_temp * sin(angle_rad) + y_temp * cos(angle_rad);
+}
+
+void	apply_rotation(float *x, float *y, float *z, t_params params)
+{
+	apply_z_rotation(x, y, params);
+	apply_y_rotation(x, z, params);
+	apply_x_rotation(y, z, params);
+
+}
+
+void	apply_params_to_point(t_dot *dot, float *x1, float *y1, t_data *data)
+{
+	float z1;
+
+	dot->z = data->fdf.z_value_m[(int)dot->y][(int)dot->x];
+	z1 = data->fdf.z_value_m[(int)*y1][(int)*x1];
+	if ((dot->y >= 0 && dot->y < data->fdf.height) && (dot->x >= 0 && dot->x < data->fdf.width))
+			dot->color = data->fdf.z_color_m[(int)dot->y][(int)dot->x];
+	else
+		dot->color = data->dot.color;
+	apply_scale_factor(&dot->x, &dot->y, &dot->z, data->params);
+	apply_scale_factor(x1, y1, &z1, data->params);
+	apply_rotation(&dot->x, &dot->y, &dot->z, data->params);
+	apply_rotation(x1, y1, &z1, data->params);
+	apply_translation(&dot->x, &dot->y, &dot->z, data->params);
+	apply_translation(x1, y1, &z1, data->params);
 	isometric(&dot->x, &dot->y, dot->z);
-	isometric(x1, y1, *z1);
+	isometric(x1, y1, z1);
 	dot->x += (WIN_WIDTH / 2);
 	dot->y += (WIN_HEIGHT / 2);
 	*x1 += (WIN_WIDTH / 2);
@@ -60,15 +118,7 @@ void	bresenham(t_dot dot, float x1, float y1, t_data *data)
 	float	x_step;
 	float	y_step;
 	float	max;
-	int z1;
-
-	dot.z = data->fdf.z_value_m[(int)dot.y][(int)dot.x];
-	z1 = data->fdf.z_value_m[(int)y1][(int)x1];
-
-        if ((dot.y >= 0 && dot.y < data->fdf.height) && (dot.x >= 0 && dot.x < data->fdf.width))
-                dot.color = data->fdf.z_color_m[(int)dot.y][(int)dot.x];
 	
-	apply_params(&dot, &x1, &y1, &z1, data->params);
 	x_step = x1 - dot.x;
 	y_step = y1 - dot.y;
 	max = MAX(MOD(x_step), MOD(y_step));
@@ -76,32 +126,17 @@ void	bresenham(t_dot dot, float x1, float y1, t_data *data)
 	y_step /= max;
 	while ((int)(dot.x - x1) || (int)(dot.y - y1))
 	{
-		mlx_pixel_put(data->mlx.connection, data->mlx.window, dot.x, dot.y, dot.color);
-		//my_mlx_pixel_put(data, dot.x, dot.y, dot.color);
+		//mlx_pixel_put(mlx->connection, mlx->window, dot.x, dot.y, dot.color);
+		my_mlx_pixel_put(data, dot.x, dot.y, dot.color);
 		dot.x += x_step;
 		dot.y += y_step;
 	}
-
 }
 
-void	init_dot(t_dot *dot)
+void	draw_point(t_dot dot, float x1, float y1, t_data *data)
 {
-	dot->x = 0;
-	dot->y = 0;
-	dot->z = 0;
-	dot->color = 0xffffff;
-}
-
-void	init_params(t_params *params)
-{
-	params->zoom = 8;
-	params->sf_x = params->zoom;
-	params->sf_y = params->zoom;
-	params->sf_z = params->zoom;
-	params->tf_x = 0;
-	params->tf_y = 0;
-	params->tf_z = 0;
-	params->angle = 0;
+	apply_params_to_point(&dot, &x1, &y1, data);
+	bresenham(dot, x1, y1, data);
 }
 
 void	draw(t_data *data)
@@ -109,7 +144,8 @@ void	draw(t_data *data)
 	int	x;
 	int	y;
 
-	display_menu(data);
+	data->img.ptr = mlx_new_image(data->mlx.connection, WIN_WIDTH, WIN_HEIGHT);
+	data->img.addr = mlx_get_data_addr(data->img.ptr, &data->img.bpp, &data->img.line_len, &data->img.endian);
 	y = 0;
 	while (y < data->fdf.height)
 	{
@@ -117,25 +153,14 @@ void	draw(t_data *data)
 		while (x < data->fdf.width)
 		{
 			if (x < data->fdf.width - 1)
-				bresenham((t_dot) {x, y, 0, 0}, x + 1, y, data);
+				draw_point((t_dot) {x, y, 0, 0}, x + 1, y, data);
 			if (y < data->fdf.height - 1)
-				bresenham((t_dot) {x, y, 0, 0}, x, y + 1, data);
+				draw_point((t_dot) {x, y, 0, 0}, x, y + 1, data);
 			x++;
 		}
 		y++;
 	}
-	//mlx_put_image_to_window(data->mlx.connection, data->mlx.window, data->img.ptr, 0, 0);
-}
+	mlx_put_image_to_window(data->mlx.connection, data->mlx.window, data->img.ptr, 0, 0);
+	display_menu(data);
 
-void	draw_initial_map(t_data *data)
-{
-	t_dot 	dot;
-	t_params params;
-
-	init_dot(&dot);
-	init_params(&params);
-	data->dot = dot;
-	data->params = params;
-
-	draw(data);
 }

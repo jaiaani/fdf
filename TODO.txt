@@ -1,1 +1,4 @@
 - Remove the matrix color somehow
+- Check memory leaks ;(
+- Use my_mlx_window
+
