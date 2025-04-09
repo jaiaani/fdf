@@ -35,7 +35,7 @@ void close_window(int keysym, t_data *data)
 {
     if (keysym == XK_Escape)
    {
-        mlx_destroy_image(data->mlx.connection, data->img.ptr);
+        //mlx_destroy_image(data->mlx.connection, data->img.ptr);
         mlx_destroy_window(data->mlx.connection, data->mlx.window);
         mlx_destroy_display(data->mlx.connection);
         free(data->mlx.connection);
@@ -150,7 +150,7 @@ int esc_event_handle(int keysym, t_data *data)
     if (keysym == XK_c)
         set_background_color(data, 0xff007f);
     mlx_clear_window(data->mlx.connection, data->mlx.window);
-    mlx_destroy_image(data->mlx.connection, data->img.ptr);
+    //mlx_destroy_image(data->mlx.connection, data->img.ptr);
     draw(data);
     printf("zoom: %d, sf_x: %d, sf_y: %d, sf_z: %d\n",data->params.zoom, data->params.sf_x, data->params.sf_y, data->params.sf_z);
     
