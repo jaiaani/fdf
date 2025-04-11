@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   helpers.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jaiane <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/11 00:00:18 by jaiane            #+#    #+#             */
+/*   Updated: 2025/04/11 00:03:21 by jaiane           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 
 int	opened_fd(char *filepath)
@@ -28,7 +40,7 @@ void	free_matrix(int **matrix, int height)
 	int	i;
 
 	if (!matrix)
-		return;
+		return ;
 	i = 0;
 	while (i < height)
 	{
@@ -40,22 +52,23 @@ void	free_matrix(int **matrix, int height)
 
 void	free_split(char **split)
 {
-    int	i;
+	int	i;
 
-    if (!split)
-        return;
-    i = 0;
-    while (split[i])
-    {
-        free(split[i]);
-        i++;
-    }
-    free(split);
+	if (!split)
+		return ;
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
 }
 
 int	color_number(char *hex_str)
 {
 	int	color;
+
 	if (!hex_str || *hex_str != '0' || *(hex_str + 1) != 'x')
 		return (0);
 	color = 0;
