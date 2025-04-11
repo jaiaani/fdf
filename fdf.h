@@ -86,6 +86,8 @@ int	count_elements(char **z_input);
 int	color_number(char *hex_str);
 int	event_handler(int keysym, t_data *data);
 
+void	apply_rotation(float *x, float *y, float *z, t_params params);
+void	apply_params_to_point(t_dot *dot, float *x1, float *y1, t_data *data);
 void	free_matrix(int **matrix, int height);
 void	free_split(char **split);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);

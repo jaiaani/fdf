@@ -15,103 +15,6 @@
 #define MAX(a, b) (a > b ? a : b)
 #define MOD(a) ((a < 0) ? -a : a)
 
-void	isometric(float *x, float *y, float z)
-{
-	*x = (*x - *y) * cos(0.8);
-	*y = (*x + *y) * sin(0.8) - z;
-}
-
-void	apply_scale_factor(float *x, float *y, float *z, t_params params)
-{
-	*x *= params.sf_x + params.zoom;
-	*y *= params.sf_y + params.zoom;
-	*z *= params.sf_z + params.zoom;
-}
-
-void	apply_translation(float *x, float *y, float *z, t_params params)
-{
-	*x += params.tf_x;
-	*y += params.tf_y;
-	*z += params.tf_z;
-}
-
-void	apply_x_rotation(float *y, float *z, t_params params)
-{
-	float angle_rad;
-	float y_temp;
-	float z_temp;
-
-	if (params.x_angle == 0)
-		return ;
-	angle_rad = params.x_angle * (M_PI / 180);
-	y_temp = *y;
-	z_temp = *z;
-	*y = y_temp * cos(angle_rad) - z_temp * sin(angle_rad);
-	*z = y_temp * sin(angle_rad) + z_temp * cos(angle_rad);
-}
-
-void	apply_y_rotation(float *x, float *z, t_params params)
-{
-	float angle_rad;
-	float x_temp;
-	float z_temp;
-
-	if (params.y_angle == 0)
-		return ;
-	angle_rad = params.y_angle * (M_PI / 180);
-	x_temp = *x;
-	z_temp = *z;
-	*x = x_temp * cos(angle_rad) + z_temp * sin(angle_rad);
-	*z = -x_temp * sin(angle_rad) + z_temp * cos(angle_rad);
-}
-
-void	apply_z_rotation(float *x, float *y, t_params params)
-{
-	float angle_rad;
-	float x_temp;
-	float y_temp;
-
-	if (params.z_angle == 0)
-		return ;
-	angle_rad = params.z_angle * (M_PI / 180);
-	x_temp = *x;
-	y_temp = *y;
-	*x = x_temp * cos(angle_rad) - y_temp * sin(angle_rad);
-	*y = x_temp * sin(angle_rad) + y_temp * cos(angle_rad);
-}
-
-void	apply_rotation(float *x, float *y, float *z, t_params params)
-{
-	apply_z_rotation(x, y, params);
-	apply_y_rotation(x, z, params);
-	apply_x_rotation(y, z, params);
-
-}
-
-void	apply_params_to_point(t_dot *dot, float *x1, float *y1, t_data *data)
-{
-	float z1;
-
-	dot->z = data->fdf.z_value_m[(int)dot->y][(int)dot->x];
-	z1 = data->fdf.z_value_m[(int)*y1][(int)*x1];
-	if ((dot->y >= 0 && dot->y < data->fdf.height) && (dot->x >= 0 && dot->x < data->fdf.width))
-			dot->color = data->fdf.z_color_m[(int)dot->y][(int)dot->x];
-	else
-		dot->color = data->dot.color;
-	apply_scale_factor(&dot->x, &dot->y, &dot->z, data->params);
-	apply_scale_factor(x1, y1, &z1, data->params);
-	apply_rotation(&dot->x, &dot->y, &dot->z, data->params);
-	apply_rotation(x1, y1, &z1, data->params);
-	apply_translation(&dot->x, &dot->y, &dot->z, data->params);
-	apply_translation(x1, y1, &z1, data->params);
-	isometric(&dot->x, &dot->y, dot->z);
-	isometric(x1, y1, z1);
-	dot->x += (WIN_WIDTH / 2);
-	dot->y += (WIN_HEIGHT / 2);
-	*x1 += (WIN_WIDTH / 2);
-	*y1 += (WIN_HEIGHT / 2);
-}
-
 
 void	bresenham(t_dot dot, float x1, float y1, t_mlx *mlx)
 {
@@ -163,6 +66,4 @@ void	draw(t_data *data)
 		y++;
 	}
 	//mlx_put_image_to_window(data->mlx.connection, data->mlx.window, data->img.ptr, 0, 0);
-	
-
 }
