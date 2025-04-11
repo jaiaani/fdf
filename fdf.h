@@ -81,15 +81,16 @@ typedef struct s_data
 }               t_data;
 
 
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
-int     handle_events(int keysym, t_mlx *data);
-void    draw_new(t_data *data);
-void	free_matrix(int **matrix, int height);
-t_fdf 	fdf_data(char *filepath);
-int	esc_event_handle(int keysym, t_data *data);
-void    display_menu(t_data *data);
-int     opened_fd(char *filepath);
-void    draw(t_data *data);
-void    draw_initial_map(t_data *data);
+int	opened_fd(char *filepath);
+int	count_elements(char **z_input);
+int	color_number(char *hex_str);
+int	event_handler(int keysym, t_data *data);
 
+void	free_matrix(int **matrix, int height);
+void	free_split(char **split);
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
+void    display_menu(t_data *data);
+void    draw(t_data *data);
+
+t_fdf 	fdf_data(char *filepath);
 #endif

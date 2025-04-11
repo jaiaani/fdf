@@ -139,7 +139,7 @@ void    reset_object(int keysym, t_data *data)
     }
 }
 
-int esc_event_handle(int keysym, t_data *data)
+int event_handler(int keysym, t_data *data)
 {
     close_window(keysym, data);
     zoom_object(keysym, data);
