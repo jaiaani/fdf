@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rotation.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jaiane <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/11 00:04:09 by jaiane            #+#    #+#             */
+/*   Updated: 2025/04/11 00:05:31 by jaiane           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 
 void	apply_x_rotation(float *y, float *z, t_params params)
 {
-	float angle_rad;
-	float y_temp;
-	float z_temp;
+	float	angle_rad;
+	float	y_temp;
+	float	z_temp;
 
 	if (params.x_angle == 0)
 		return ;
@@ -17,9 +29,9 @@ void	apply_x_rotation(float *y, float *z, t_params params)
 
 void	apply_y_rotation(float *x, float *z, t_params params)
 {
-	float angle_rad;
-	float x_temp;
-	float z_temp;
+	float	angle_rad;
+	float	x_temp;
+	float	z_temp;
 
 	if (params.y_angle == 0)
 		return ;
@@ -32,9 +44,9 @@ void	apply_y_rotation(float *x, float *z, t_params params)
 
 void	apply_z_rotation(float *x, float *y, t_params params)
 {
-	float angle_rad;
-	float x_temp;
-	float y_temp;
+	float	angle_rad;
+	float	x_temp;
+	float	y_temp;
 
 	if (params.z_angle == 0)
 		return ;
@@ -50,5 +62,4 @@ void	apply_rotation(float *x, float *y, float *z, t_params params)
 	apply_z_rotation(x, y, params);
 	apply_y_rotation(x, z, params);
 	apply_x_rotation(y, z, params);
-
 }
