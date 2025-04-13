@@ -19,7 +19,7 @@ int	mod_abs(int a)
 	return (a);
 }
 
-int	max(int a, int b)
+int	max_num(int a, int b)
 {
 	if (a > b)
 		return (a);
@@ -34,7 +34,7 @@ void	bresenham(t_dot dot, float x1, float y1, t_mlx *mlx)
 
 	x_step = x1 - dot.x;
 	y_step = y1 - dot.y;
-	max = max(mod_abs(x_step), mod_abs(y_step));
+	max = max_num(mod_abs(x_step), mod_abs(y_step));
 	x_step /= max;
 	y_step /= max;
 	while ((int)(dot.x - x1) || (int)(dot.y - y1))

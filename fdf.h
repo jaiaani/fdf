@@ -84,6 +84,8 @@ int				opened_fd(char *filepath);
 int				count_elements(char **z_input);
 int				color_number(char *hex_str);
 int				event_handler(int keysym, t_data *data);
+int				count_tokens(int fd);
+int				count_lines(int fd);
 
 void			apply_rotation(float *x, float *y, float *z, t_params params);
 void			apply_params_to_point(t_dot *dot, float *x1, float *y1,
