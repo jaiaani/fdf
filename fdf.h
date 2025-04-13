@@ -104,5 +104,13 @@ void			rotation_angle(t_data *data, int *y_margin, int angle);
 void			axes_menu(t_data *data, int *y_margin);
 void			instructions(t_data *data);
 
+void			zoom(int keysym, t_data *data);
+void			scale(int keysym, t_data *data);
+void			rotate(int keysym, t_data *data);
+void			translate(int keysym, t_data *data);
+void			reset(int keysym, t_data *data);
+int			close_window(t_data *data);
+
+
 t_fdf			fdf_data(char *filepath);
 #endif

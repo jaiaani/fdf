@@ -38,7 +38,8 @@ void	apply_params_to_point(t_dot *dot, float *x1, float *y1, t_data *data)
 
 	dot->z = data->fdf.z_value_m[(int)dot->y][(int)dot->x];
 	z1 = data->fdf.z_value_m[(int)*y1][(int)*x1];
-	if ((dot->y >= 0 && dot->y < data->fdf.height) && (dot->x >= 0 && dot->x < data->fdf.width))
+	if ((dot->y >= 0 && dot->y < data->fdf.height) && (dot->x >= 0
+			&& dot->x < data->fdf.width))
 		dot->color = data->fdf.z_color_m[(int)dot->y][(int)dot->x];
 	else
 		dot->color = data->dot.color;

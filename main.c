@@ -52,6 +52,7 @@ int	main(int argc, char *argv[])
 	initialize_data(&data);
 	draw(&data);
 	mlx_key_hook(data.mlx.window, event_handler, &data.mlx);
+    mlx_hook(data.mlx.window, 17, 0, close_window, &data);
 	mlx_loop(data.mlx.connection);
 	free_matrix(data.fdf.z_value_m, data.fdf.height);
 	free_matrix(data.fdf.z_color_m, data.fdf.height);
