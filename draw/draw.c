@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../fdf.h"
 
 int	mod_abs(int a)
 {
@@ -45,13 +45,13 @@ void	bresenham(t_dot dot, float x1, float y1, t_mlx *mlx)
 	}
 }
 
-void	draw_point(t_dot dot, float x1, float y1, t_data *data)
+void	draw_line(t_dot dot, float x1, float y1, t_data *data)
 {
-	apply_params_to_point(&dot, &x1, &y1, data);
+	apply_params_to_points(&dot, &x1, &y1, data);
 	bresenham(dot, x1, y1, &data->mlx);
 }
 
-void	draw(t_data *data)
+int	draw(t_data *data)
 {
 	int	x;
 	int	y;
@@ -64,11 +64,13 @@ void	draw(t_data *data)
 		while (x < data->fdf.width)
 		{
 			if (x < data->fdf.width - 1)
-				draw_point((t_dot){x, y, 0, 0}, x + 1, y, data);
+				draw_line((t_dot){x, y, 0, 0}, x + 1, y, data);
 			if (y < data->fdf.height - 1)
-				draw_point((t_dot){x, y, 0, 0}, x, y + 1, data);
+				draw_line((t_dot){x, y, 0, 0}, x, y + 1, data);
 			x++;
 		}
 		y++;
 	}
+
+	return (0);
 }

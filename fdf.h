@@ -86,15 +86,16 @@ int				color_number(char *hex_str);
 int				event_handler(int keysym, t_data *data);
 int				count_tokens(int fd);
 int				count_lines(int fd);
+int				close_window(t_data *data);
 
 void			apply_rotation(float *x, float *y, float *z, t_params params);
-void			apply_params_to_point(t_dot *dot, float *x1, float *y1,
+void			apply_params_to_points(t_dot *dot, float *x1, float *y1,
 					t_data *data);
 void			free_matrix(int **matrix, int height);
 void			free_split(char **split);
 void			my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void			display_menu(t_data *data);
-void			draw(t_data *data);
+int			draw(t_data *data);
 
 void			mlx_put_dynamic_line(t_data *data, int *y_margin, char *prefix,
 					int value);
@@ -109,7 +110,7 @@ void			scale(int keysym, t_data *data);
 void			rotate(int keysym, t_data *data);
 void			translate(int keysym, t_data *data);
 void			reset(int keysym, t_data *data);
-int			close_window(t_data *data);
+
 
 
 t_fdf			fdf_data(char *filepath);

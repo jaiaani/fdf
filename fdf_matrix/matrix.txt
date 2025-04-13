@@ -1,0 +1,118 @@
+#include "../fdf.h"
+
+typedef struct  s_point
+{
+    int value;
+    int color;
+}   t_point;
+
+
+typedef struct s_fdf_d
+{
+    int     width;
+    int     height;
+    t_point **matrix;
+} t_fdf_d;
+
+
+t_point parse_point(char *str)
+{
+    t_point point;
+    char **split;
+
+    if(ft_strchr(str, ','))
+    {
+        split = ft_split(str, ',');
+        point.value = ft_atoi(split[0]);
+        point.color = color_number(split[1]);
+        free_split(split);
+    }
+    else
+    {
+        point.value = ft_atoi(str);
+        point.color = 0xffffff;
+    }
+    return point;
+}
+
+t_point **create_matrix(int width, int height)
+{
+    t_point **matrix;
+    int i;
+
+    matrix = (t_point **)malloc(sizeof(t_point *) * (height + 1));
+    if (!matrix)
+        return (NULL);
+    while (i < height)
+    {
+        matrix[i] = (t_point *)malloc(sizeof(t_point) * (width + 1));
+        if (!matrix[i])
+        {
+            free_matrix(matrix, i);
+            return (NULL);
+        }
+        i++;
+    }
+    matrix[i] = NULL;
+    return (matrix);
+}
+
+void fill_matrix_row(t_fdf_d *fdf, char *line)
+{
+    char **values;
+    int i;
+
+    values = ft_split(line, ' ');
+    if (!values)
+        return;
+    i = 0;
+    while (values[i])
+    {
+        fdf->matrix[fdf->height][i] = parse_point(values[i]);
+        free(values[i]);
+        i++;
+    }
+    fdf->matrix[fdf->height][i].value = 0;
+    fdf->matrix[fdf->height][i].color = 0;
+    free(values);
+}
+
+void fill_matrix(t_fdf_d *fdf, int fd)
+{
+    char *line;
+    char **values;
+    int i;
+    
+    fdf->matrix = create_matrix(fdf->width, fdf->height);
+    if (!fdf->matrix)
+        return;
+    i = 0;
+    while (i < fdf->height)
+    {
+        line = get_next_line(fd);
+        if (!line)
+            break;
+        fill_matrix_row(fdf, line);
+        free(line);
+        i++;
+
+    }
+}
+
+t_fdf	fdf_data(char *filepath)
+{
+	int		fd;
+	t_fdf	data;
+
+	fd = opened_fd(filepath);
+	data.width = count_tokens(fd);
+	close(fd);
+	fd = opened_fd(filepath);
+	data.height = count_lines(fd);
+	close(fd);
+	fd = opened_fd(filepath);
+	fill_matrix(&data, fd);
+	close(fd);
+	return (data);
+}
+

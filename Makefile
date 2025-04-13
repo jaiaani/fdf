@@ -4,7 +4,7 @@ LIBS 	= -Lmlx_linux -lmlx_Linux -Llibs/minilibx-linux -Imlx_linux -lXext -lX11 -
 CFLAGS  = -Wall -Wextra -Werror
 
 # Source files and target
-SRCS    = $(wildcard fdf_matrix/*.c) $(wildcard menu/*.c) $(wildcard events_handler/*.c) $(wildcard *.c)
+SRCS    = $(wildcard fdf_matrix/*.c) $(wildcard draw/*c) $(wildcard menu/*.c) $(wildcard events_handler/*.c) $(wildcard *.c)
 OBJS    = $(SRCS:.c=.o)
 NAME    = out
 

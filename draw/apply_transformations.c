@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../fdf.h"
 
 void	isometric(float *x, float *y, float z)
 {
@@ -32,7 +32,7 @@ void	apply_translation(float *x, float *y, float *z, t_params params)
 	*z += params.tf_z;
 }
 
-void	apply_params_to_point(t_dot *dot, float *x1, float *y1, t_data *data)
+void	apply_params_to_points(t_dot *dot, float *x1, float *y1, t_data *data)
 {
 	float	z1;
 
