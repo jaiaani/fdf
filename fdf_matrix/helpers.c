@@ -38,6 +38,7 @@ void	fdf_init(t_fdf *fdf, int fd)
 	if (!line)
 		return ;
 	fdf_width(fdf, line);
+	free(line);
 	while (1)
 	{
 		line = get_next_line(fd);
@@ -48,4 +49,5 @@ void	fdf_init(t_fdf *fdf, int fd)
 	}
 	fdf->center_x = fdf->width / 2.0f;
 	fdf->center_y = fdf->height / 2.0f;
+	free_static_buffer();
 }

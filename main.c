@@ -26,6 +26,8 @@ void	initialize_data(t_data *data)
 	data->params.x_angle = 0.0;
 	data->params.y_angle = 0.0;
 	data->params.z_angle = 0.0;
+	//data->img.ptr = mlx_new_image(data->mlx.connection, WIN_W, WIN_H);
+	//data->img.addr = mlx_get_data_addr(data->img.ptr, &data->img.bpp, &data->img.line_len, &data->img.endian);
 }
 
 int	main(int argc, char *argv[])

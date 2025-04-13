@@ -26,7 +26,7 @@ int	max_num(int a, int b)
 	return (b);
 }
 
-void	bresenham(t_dot dot, float x1, float y1, t_mlx *mlx)
+void	bresenham(t_dot dot, float x1, float y1, t_data *data)
 {
 	float	x_step;
 	float	y_step;
@@ -39,7 +39,7 @@ void	bresenham(t_dot dot, float x1, float y1, t_mlx *mlx)
 	y_step /= max;
 	while ((int)(dot.x - x1) || (int)(dot.y - y1))
 	{
-		mlx_pixel_put(mlx->connection, mlx->window, dot.x, dot.y, dot.color);
+		my_mlx_pixel_put(data, dot.x, dot.y, dot.color);
 		dot.x += x_step;
 		dot.y += y_step;
 	}
@@ -48,7 +48,7 @@ void	bresenham(t_dot dot, float x1, float y1, t_mlx *mlx)
 void	draw_line(t_dot dot, float x1, float y1, t_data *data)
 {
 	apply_params_to_points(&dot, &x1, &y1, data);
-	bresenham(dot, x1, y1, &data->mlx);
+	bresenham(dot, x1, y1, data);
 }
 
 int	draw(t_data *data)
@@ -56,7 +56,10 @@ int	draw(t_data *data)
 	int	x;
 	int	y;
 
-	display_menu(data);
+	
+	//ft_bzero(data->img.addr, WIN_W * WIN_H * (data->img.bpp / 8));
+	data->img.ptr = mlx_new_image(data->mlx.connection, WIN_W, WIN_H);
+	data->img.addr = mlx_get_data_addr(data->img.ptr, &data->img.bpp, &data->img.line_len, &data->img.endian);
 	y = 0;
 	while (y < data->fdf.height)
 	{
@@ -71,5 +74,7 @@ int	draw(t_data *data)
 		}
 		y++;
 	}
+	mlx_put_image_to_window(data->mlx.connection, data->mlx.window, data->img.ptr, 0, 0);
+	display_menu(data);
 	return (0);
 }

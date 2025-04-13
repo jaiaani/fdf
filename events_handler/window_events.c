@@ -14,6 +14,7 @@
 
 int	close_window(t_data *data)
 {
+	mlx_destroy_image(data->mlx.connection, data->img.ptr);
 	mlx_destroy_window(data->mlx.connection, data->mlx.window);
 	mlx_destroy_display(data->mlx.connection);
 	free(data->mlx.connection);

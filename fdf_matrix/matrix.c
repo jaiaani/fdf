@@ -23,7 +23,7 @@ t_point	**empty_matrix(t_fdf *fdf)
 	i = 0;
 	while (i < fdf->height)
 	{
-		matrix[i] = (t_point *)malloc(sizeof(t_point *) * fdf->width + 1);
+		matrix[i] = (t_point *)malloc(sizeof(t_point) * (fdf->width + 1));
 		if (!matrix[i])
 		{
 			free_matrix(matrix, i);
@@ -35,6 +35,7 @@ t_point	**empty_matrix(t_fdf *fdf)
 	return (matrix);
 }
 
+
 void	parse_point(t_point *row, char *str, int i)
 {
 	char	**values;
@@ -43,10 +44,7 @@ void	parse_point(t_point *row, char *str, int i)
 	{
 		values = ft_split(str, ',');
 		if (!values)
-		{
-			free(str);
 			return ;
-		}
 		row[i].value = fast_atoi(values[0]);
 		row[i].color = color_number(values[1]);
 		free_split(values);

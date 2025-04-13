@@ -14,14 +14,21 @@
 
 int	event_handler(int keysym, t_data *data)
 {
+	int	redraw = 0;
+
 	if (keysym == XK_Escape)
 		close_window(data);
-	zoom(keysym, data);
-	scale(keysym, data);
-	rotate(keysym, data);
-	translate(keysym, data);
-	reset(keysym, data);
-	mlx_clear_window(data->mlx.connection, data->mlx.window);
-	draw(data);
+	zoom(keysym, data, &redraw);
+	scale(keysym, data, &redraw);
+	rotate(keysym, data, &redraw);
+	translate(keysym, data, &redraw);
+	reset(keysym, data, &redraw);
+	if (redraw)
+	{
+		mlx_destroy_image(data->mlx.connection, data->img.ptr);
+		mlx_clear_window(data->mlx.connection, data->mlx.window);
+		draw(data);
+	}
+	
 	return (0);
 }

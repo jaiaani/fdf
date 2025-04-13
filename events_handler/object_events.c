@@ -12,7 +12,7 @@
 
 #include "../fdf.h"
 
-void	zoom(int keysym, t_data *data)
+void	zoom(int keysym, t_data *data, int *redraw)
 {
 	if (keysym == XK_i)
 	{
@@ -26,13 +26,14 @@ void	zoom(int keysym, t_data *data)
 		data->params.sf_y -= 1;
 		data->params.sf_z -= 1;
 	}
+	*redraw = 1;
 }
 
-void	scale(int keysym, t_data *data)
+void	scale(int keysym, t_data *data, int *redraw)
 {
 	int	scale_step;
 
-	scale_step = 1.5;
+	scale_step = 5;
 	if (keysym == XK_w)
 		data->params.sf_x += scale_step;
 	if (keysym == XK_q)
@@ -45,9 +46,10 @@ void	scale(int keysym, t_data *data)
 		data->params.sf_z += scale_step;
 	if (keysym == XK_z)
 		data->params.sf_z -= scale_step;
+	*redraw = 1;
 }
 
-void	rotate(int keysym, t_data *data)
+void	rotate(int keysym, t_data *data, int *redraw)
 {
 	float	angle_step;
 
@@ -64,13 +66,14 @@ void	rotate(int keysym, t_data *data)
 		data->params.z_angle -= angle_step;
 	if (keysym == XK_6)
 		data->params.z_angle += angle_step;
+	*redraw = 1;
 }
 
-void	translate(int keysym, t_data *data)
+void	translate(int keysym, t_data *data, int *redraw)
 {
 	int	translate_step;
 
-	translate_step = 1.5;
+	translate_step = 5;
 	if (keysym == XK_Left)
 		data->params.tf_x -= translate_step;
 	if (keysym == XK_Right)
@@ -83,9 +86,10 @@ void	translate(int keysym, t_data *data)
 		data->params.tf_z -= translate_step;
 	if (keysym == XK_Page_Down)
 		data->params.tf_z += translate_step;
+	*redraw = 1;
 }
 
-void	reset(int keysym, t_data *data)
+void	reset(int keysym, t_data *data, int *redraw)
 {
 	if (keysym == XK_r)
 	{
@@ -100,4 +104,5 @@ void	reset(int keysym, t_data *data)
 		data->params.y_angle = 0.0;
 		data->params.z_angle = 0.0;
 	}
+	*redraw = 1;
 }
