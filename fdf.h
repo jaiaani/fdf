@@ -6,7 +6,7 @@
 /*   By: jaiane <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 19:38:42 by jaiane            #+#    #+#             */
-/*   Updated: 2025/03/18 19:14:09 by jaiane           ###   ########.fr       */
+/*   Updated: 2025/04/13 10:36:33 by jaiane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@
 #include <stdlib.h>
 #include <fcntl.h>
 
-#define WIN_WIDTH 1920
-#define WIN_HEIGHT 1080
+#define WIN_W 1920
+#define WIN_H 1080
+#define X_MARGIN 10
 
 typedef struct s_mlx_img
 {
@@ -93,6 +94,13 @@ void	free_split(char **split);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void    display_menu(t_data *data);
 void    draw(t_data *data);
+
+void mlx_put_dynamic_line(t_data *data, int *y_margin, char *prefix, int value);
+void scaling_factor(t_data *data, int *y_margin, int sf);
+void translation_factor(t_data *data, int *y_margin, int tf);
+void rotation_angle(t_data *data, int *y_margin, int angle);
+void axes_menu(t_data *data, int *y_margin);
+void instructions(t_data *data);
 
 t_fdf 	fdf_data(char *filepath);
 #endif

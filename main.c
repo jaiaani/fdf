@@ -42,7 +42,7 @@ int	main(int argc, char *argv[])
 	data.mlx.connection = mlx_init();
 	if (data.mlx.connection == NULL)
 		return (1);
-	data.mlx.window = mlx_new_window(data.mlx.connection, WIN_WIDTH, WIN_HEIGHT, "-");
+	data.mlx.window = mlx_new_window(data.mlx.connection, WIN_W, WIN_H, "-");
 	if (data.mlx.window == NULL)
 	{
 		mlx_destroy_display(data.mlx.connection);

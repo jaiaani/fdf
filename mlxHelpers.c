@@ -19,10 +19,10 @@ void    set_background_color(t_data *data, int color)
         int     y;
 
         y = 0;
-        while (y < WIN_HEIGHT)
+        while (y < WIN_H)
         {
                 x = 0;
-                while (x < WIN_WIDTH)
+                while (x < WIN_W)
                 {
                         mlx_pixel_put(data->mlx.connection, data->mlx.window, x, y, color);
                         x++;

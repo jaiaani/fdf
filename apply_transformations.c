@@ -50,8 +50,8 @@ void	apply_params_to_point(t_dot *dot, float *x1, float *y1, t_data *data)
 	apply_translation(x1, y1, &z1, data->params);
 	isometric(&dot->x, &dot->y, dot->z);
 	isometric(x1, y1, z1);
-	dot->x += (WIN_WIDTH / 2);
-	dot->y += (WIN_HEIGHT / 2);
-	*x1 += (WIN_WIDTH / 2);
-	*y1 += (WIN_HEIGHT / 2);
+	dot->x += (WIN_W / 2);
+	dot->y += (WIN_H / 2);
+	*x1 += (WIN_W / 2);
+	*y1 += (WIN_H / 2);
 }
