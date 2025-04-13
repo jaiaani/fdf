@@ -71,6 +71,5 @@ int	draw(t_data *data)
 		}
 		y++;
 	}
-
 	return (0);
 }

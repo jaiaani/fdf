@@ -46,4 +46,6 @@ void	fdf_init(t_fdf *fdf, int fd)
 		free(line);
 		fdf->height++;
 	}
+	fdf->center_x = fdf->width / 2.0f;
+	fdf->center_y = fdf->height / 2.0f;
 }

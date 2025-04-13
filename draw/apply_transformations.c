@@ -39,7 +39,6 @@ void	apply_params_to_points(t_dot *dot, float *x1, float *y1, t_data *data)
 	dot->z = data->fdf.matrix[(int)dot->y][(int)dot->x].value;
 	z1 = data->fdf.matrix[(int)*y1][(int)*x1].value;
 	dot->color = data->fdf.matrix[(int)dot->y][(int)dot->x].color;
-	
 	apply_scale_factor(&dot->x, &dot->y, &dot->z, data->params);
 	apply_scale_factor(x1, y1, &z1, data->params);
 	apply_rotation(&dot->x, &dot->y, &dot->z, data->params);
@@ -48,8 +47,8 @@ void	apply_params_to_points(t_dot *dot, float *x1, float *y1, t_data *data)
 	apply_translation(x1, y1, &z1, data->params);
 	isometric(&dot->x, &dot->y, dot->z);
 	isometric(x1, y1, z1);
-	dot->x += (WIN_W / 2);
-	dot->y += (WIN_H / 2);
-	*x1 += (WIN_W / 2);
-	*y1 += (WIN_H / 2);
+	dot->x += (WIN_W / 2) - data->fdf.center_x;
+	dot->y += (WIN_H / 2) - data->fdf.center_y;
+	*x1 += (WIN_W / 2) - data->fdf.center_x;
+	*y1 += (WIN_H / 2) - data->fdf.center_y;
 }

@@ -51,6 +51,8 @@ typedef struct s_fdf_data
 {
 	int			width;
 	int			height;
+	float			center_x;
+	float			center_y;
 	t_point    **matrix;
 }				t_fdf;
 

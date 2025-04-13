@@ -16,7 +16,7 @@
 
 void	initialize_data(t_data *data)
 {
-	data->params.zoom = 8;
+	data->params.zoom = 5;
 	data->params.sf_x = 0;
 	data->params.sf_y = 0;
 	data->params.sf_z = 0;
