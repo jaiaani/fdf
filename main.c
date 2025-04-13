@@ -16,10 +16,6 @@
 
 void	initialize_data(t_data *data)
 {
-	data->dot.x = 0;
-	data->dot.y = 0;
-	data->dot.z = 0;
-	data->dot.color = 0xffffff;
 	data->params.zoom = 8;
 	data->params.sf_x = 0;
 	data->params.sf_y = 0;
@@ -38,6 +34,7 @@ int	main(int argc, char *argv[])
 
 	if (argc != 2)
 		return (1);
+	
 	data.fdf = fdf_data(argv[1]);
 	data.mlx.connection = mlx_init();
 	if (data.mlx.connection == NULL)
@@ -55,7 +52,6 @@ int	main(int argc, char *argv[])
     mlx_hook(data.mlx.window, 17, 0, close_window, &data);
 	//mlx_hook(data.mlx.window, 2, 1L<<15, draw, &data);
 	mlx_loop(data.mlx.connection);
-	free_matrix(data.fdf.z_value_m, data.fdf.height);
-	free_matrix(data.fdf.z_color_m, data.fdf.height);
+	free_matrix(data.fdf.matrix, data.fdf.height);
 	return (0);
 }

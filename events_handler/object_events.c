@@ -89,10 +89,6 @@ void	reset(int keysym, t_data *data)
 {
 	if (keysym == XK_r)
 	{
-		data->dot.x = 0;
-		data->dot.y = 0;
-		data->dot.z = 0;
-		data->dot.color = 0xffffff;
 		data->params.zoom = 8;
 		data->params.sf_x = data->params.zoom;
 		data->params.sf_y = data->params.zoom;

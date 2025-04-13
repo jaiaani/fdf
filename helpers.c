@@ -25,29 +25,34 @@ int	opened_fd(char *filepath)
 	return (fd);
 }
 
-int	count_elements(char **z_input)
+void    free_matrix(t_point **matrix, int height)
 {
-	int	i;
+    int i;
 
-	i = 0;
-	while (z_input[i])
-		i++;
-	return (i);
+    if (!matrix)
+        return;
+    i = 0;
+    while (i < height)
+    {
+        free(matrix[i]);
+        i++;
+    }
+    free(matrix);
 }
 
-void	free_matrix(int **matrix, int height)
+int fast_atoi(char *str) 
 {
-	int	i;
+    int val;
+	int i;
 
-	if (!matrix)
-		return ;
+	val = 0;
 	i = 0;
-	while (i < height)
+    while (ft_isdigit(str[i])) 
 	{
-		free(matrix[i]);
-		i++;
-	}
-	free(matrix);
+        val = val * 10 + (str[i] - '0');
+        i++;
+    }
+    return val;
 }
 
 void	free_split(char **split)

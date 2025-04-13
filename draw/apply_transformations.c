@@ -36,13 +36,10 @@ void	apply_params_to_points(t_dot *dot, float *x1, float *y1, t_data *data)
 {
 	float	z1;
 
-	dot->z = data->fdf.z_value_m[(int)dot->y][(int)dot->x];
-	z1 = data->fdf.z_value_m[(int)*y1][(int)*x1];
-	if ((dot->y >= 0 && dot->y < data->fdf.height) && (dot->x >= 0
-			&& dot->x < data->fdf.width))
-		dot->color = data->fdf.z_color_m[(int)dot->y][(int)dot->x];
-	else
-		dot->color = data->dot.color;
+	dot->z = data->fdf.matrix[(int)dot->y][(int)dot->x].value;
+	z1 = data->fdf.matrix[(int)*y1][(int)*x1].value;
+	dot->color = data->fdf.matrix[(int)dot->y][(int)dot->x].color;
+	
 	apply_scale_factor(&dot->x, &dot->y, &dot->z, data->params);
 	apply_scale_factor(x1, y1, &z1, data->params);
 	apply_rotation(&dot->x, &dot->y, &dot->z, data->params);

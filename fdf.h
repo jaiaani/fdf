@@ -41,12 +41,17 @@ typedef struct s_mlx_data
 	void		*window;
 }				t_mlx;
 
+typedef struct s_point
+{
+	int			value;
+	int			color;
+}				t_point;
+
 typedef struct s_fdf_data
 {
 	int			width;
 	int			height;
-	int			**z_value_m;
-	int			**z_color_m;
+	t_point    **matrix;
 }				t_fdf;
 
 typedef struct s_dot
@@ -76,22 +81,21 @@ typedef struct s_data
 	t_mlx		mlx;
 	t_fdf		fdf;
 	t_img		img;
-	t_dot		dot;
 	t_params	params;
 }				t_data;
 
 int				opened_fd(char *filepath);
-int				count_elements(char **z_input);
 int				color_number(char *hex_str);
 int				event_handler(int keysym, t_data *data);
-int				count_tokens(int fd);
-int				count_lines(int fd);
+void				fdf_init(t_fdf *fdf, int fd);
 int				close_window(t_data *data);
+int 			fast_atoi(char *str);
+
 
 void			apply_rotation(float *x, float *y, float *z, t_params params);
 void			apply_params_to_points(t_dot *dot, float *x1, float *y1,
 					t_data *data);
-void			free_matrix(int **matrix, int height);
+void			free_matrix(t_point **matrix, int height);
 void			free_split(char **split);
 void			my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void			display_menu(t_data *data);
