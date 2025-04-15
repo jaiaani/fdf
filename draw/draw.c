@@ -56,8 +56,6 @@ int	draw(t_data *data)
 	int	x;
 	int	y;
 
-	
-	//ft_bzero(data->img.addr, WIN_W * WIN_H * (data->img.bpp / 8));
 	data->img.ptr = mlx_new_image(data->mlx.connection, WIN_W, WIN_H);
 	data->img.addr = mlx_get_data_addr(data->img.ptr, &data->img.bpp, &data->img.line_len, &data->img.endian);
 	y = 0;
