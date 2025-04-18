@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   my_mlx_pixel_put.c                                 :+:      :+:    :+:   */
+/*   display_menu.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaiane <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/13 20:00:58 by jaiane            #+#    #+#             */
-/*   Updated: 2025/03/13 20:15:24 by jaiane           ###   ########.fr       */
+/*   Created: 2025/04/12 20:25:04 by jaiane            #+#    #+#             */
+/*   Updated: 2025/04/13 10:39:56 by jaiane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../fdf.h"
 
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+void	display_menu(t_data *data)
 {
-	char	*d;
+	char	*menu;
+	int		y_margin;
 
-	if (x >= 0 && x < WIN_W && y >= 0 && y < WIN_H)
-	{
-		d = data->img.addr + (y * data->img.line_len + x * (data->img.bpp / 8));
-		*(unsigned int *)d = color;
-	}
+	y_margin = 30;
+	menu = "------- [FDF] Menu -------";
+	mlx_string_put(data->mlx.connection, data->mlx.window, X_MARGIN, y_margin,
+		0x03fc35, menu);
+	axes_menu(data, &y_margin);
+	instructions(data);
 }

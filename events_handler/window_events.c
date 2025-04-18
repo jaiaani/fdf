@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   my_mlx_pixel_put.c                                 :+:      :+:    :+:   */
+/*   window_events.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaiane <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/13 20:00:58 by jaiane            #+#    #+#             */
-/*   Updated: 2025/03/13 20:15:24 by jaiane           ###   ########.fr       */
+/*   Created: 2025/04/13 13:19:44 by jaiane            #+#    #+#             */
+/*   Updated: 2025/04/13 13:19:48 by jaiane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../fdf.h"
 
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+int	close_window(t_data *data)
 {
-	char	*d;
-
-	if (x >= 0 && x < WIN_W && y >= 0 && y < WIN_H)
-	{
-		d = data->img.addr + (y * data->img.line_len + x * (data->img.bpp / 8));
-		*(unsigned int *)d = color;
-	}
+	mlx_destroy_image(data->mlx.connection, data->img.ptr);
+	mlx_destroy_window(data->mlx.connection, data->mlx.window);
+	mlx_destroy_display(data->mlx.connection);
+	free(data->mlx.connection);
+	free_matrix(data->fdf.matrix, data->fdf.height);
+	exit(1);
+	return (0);
 }
